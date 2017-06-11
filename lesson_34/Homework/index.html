@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+
+    <script>
+        window.onload = function () {
+            var socket = io.connect('http://localhost:1337');
+
+            var namespace = io('/namespace');
+
+            namespace.on('connect', function (socket) {
+                console.log('connected to namespace');
+                namespace.emit('reseiv', {mes: 'message reseived'})
+
+            })
+
+            namespace.on('Message', function (data) {
+                document.getElementById('out').innerHTML += data.text + '</br>';
+
+            })
+
+        }
+    </script>
+</head>
+<body>
+<h2 id="out"></h2>
+
+</body>
+</html>

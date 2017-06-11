@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>List View</title>
+    <script>
+        window.onload = function () {
+            var users = [
+                {name: 'Jane', age: 23}, {name: 'John', age: 30}, {name: 'Vasya', age: 25},
+                {name: 'Yvonne', age: 34}, {name: 'Will', age: 18}, {name: 'Jack', age: 26}
+            ]
+            for (i = 0; i < users.length; i++) {
+                var newEl = document.createElement('li')
+                newEl.innerHTML =  "Name: "+ users[i].name+ ', Age: ' + users[i].age
+                newEl.id = i;
+                var xhr = new XMLHttpRequest()
+                function makeReq(id) {
+                    xhr.open('GET', '/users/' + id)
+                    xhr.onload= function () {
+                        console.log(this.responseText);
+                        var out = document.getElementById('out1').innerHTML = this.responseText;
+                    }
+                    console.log(id)
+                    xhr.send()
+                }
+
+                document.getElementById('out').appendChild(newEl)
+                newEl.onclick = function (e) {
+                    makeReq(e.target.id);
+                    document.getElementById('out')
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<ul id="out"></ul>
+<h1 id="out1"></h1>
+</body>
+</html>

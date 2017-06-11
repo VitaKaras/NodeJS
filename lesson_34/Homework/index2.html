@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+
+    <script>
+        window.onload= function () {
+            var socket = io.connect('http://localhost:1337');
+            document.getElementById('btn').onclick = function () {
+                socket.emit('send_message', {text: document.getElementById('mes').value})
+                console.log('message: '+ document.getElementById('mes').value)
+            }
+            socket.on('chat message', function (message) {
+                console.log(message)
+                // сгенерировать html разметку сообщения
+                var display_message = `<div class ="panel well">
+                                   <h4>Message: </h4>
+                                   <h5>${message.text}</h5>
+                               </div>`
+
+                // добавить результат на страницу
+                document.getElementById('out').innerHTML += display_message;
+            })
+        }
+    </script>
+</head>
+<body>
+<input type="text" placeholder="Input your message here" id="mes" />
+<button class="btn" id="btn">press to send</button>
+<form id="out">Messages: </form>
+</body>
+</html>
